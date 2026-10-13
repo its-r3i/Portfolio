@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>John Adrei Lanto - Developer Portfolio</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Default Dark Theme Variables */
+    :root {
+      --bg-dark: #0a0f1d;
+      --card-bg: #11192e;
+      --accent: #00f2fe;
+      --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+      --text-color: #e2e8f0;
+      --heading-color: #ffffff;
+      --secondary-text: #a0aec0;
+      --navbar-bg: rgba(10, 15, 29, 0.85);
+      --card-border: rgba(255, 255, 255, 0.05);
+      --glow-opacity: 0.35;
+    }
+
+    /* Light Theme Variables Overrides */
+    [data-theme="light"] {
+      --bg-dark: #f8fafc;
+      --card-bg: #ffffff;
+      --accent: #0284c7;
+      --accent-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+      --text-color: #334155;
+      --heading-color: #0f172a;
+      --secondary-text: #64748b;
+      --navbar-bg: rgba(255, 255, 255, 0.85);
+      --card-border: rgba(0, 0, 0, 0.08);
+      --glow-opacity: 0.15;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    .glow-bg {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: -1;
+      opacity: var(--glow-opacity);
+      transition: opacity 0.4s ease;
+    }
+    .glow-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #00f2fe; }
+    .glow-2 { top: 40%; right: -10%; width: 450px; height: 450px; background: #7f00ff; }
+
+    .navbar {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      transition: all 0.4s ease;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--heading-color) !important;
+      letter-spacing: 1px;
+    }
+    .navbar-brand span {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-link {
+      color: var(--secondary-text) !important;
+      font-weight: 500;
+      margin: 0 8px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--accent) !important;
+      text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+    }
+
+    .nav-link.clicked-active {
+      color: var(--accent) !important;
+      font-weight: 700;
+      text-shadow: 0 0 12px rgba(0, 242, 254, 0.8);
+    }
+
+    /* Theme Toggle Switch Styling */
+    .theme-toggle-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .theme-toggle-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+    }
+    .text-gradient {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-gradient {
+      background: var(--accent-gradient);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn-gradient:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 242, 254, 0.3);
+      color: #fff;
+    }
+    .btn-outline-custom {
+      border: 2px solid rgba(0, 242, 254, 0.5);
+      color: var(--heading-color);
+      padding: 10px 26px;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .btn-outline-custom:hover {
+      background: rgba(0, 242, 254, 0.1);
+      border-color: var(--accent);
+      color: var(--heading-color);
+    }
+
+    .hero-img-container {
+      position: relative;
+      text-align: center;
+    }
+    .hero-img {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(0, 242, 254, 0.3);
+      animation: float 5s ease-in-out infinite;
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-18px); }
+    }
+
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+    .skill-card h5 {
+      color: var(--heading-color) !important;
+    }
+    .skill-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 242, 254, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    .skill-icon {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      display: inline-block;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .project-card h4 {
+      color: var(--heading-color) !important;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 242, 254, 0.15);
+    }
+    .badge-tech {
+      background: rgba(0, 242, 254, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      font-size: 0.8rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      display: inline-block;
+    }
+
+    .social-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+    .social-card i {
+      font-size: 2rem;
+      transition: transform 0.3s ease;
+    }
+    .social-card span {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--heading-color);
+    }
+    .social-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
+      color: var(--accent);
+    }
+    .social-card:hover i {
+      transform: scale(1.15);
+    }
+
+    .text-white {
+      color: var(--heading-color) !important;
+    }
+    .text-secondary {
+      color: var(--secondary-text) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+
+  <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#home"><i class="fa-solid fa-code me-2"></i>DEV<span>PORTFOLIO</span></a>
+      
+      <div class="d-flex align-items-center gap-3 order-lg-3">
+        <!-- Dark / Light Mode Toggle Button -->
+        <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+          <span id="themeText">Dark</span>
+        </button>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects & Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-7">
+          <p class="text-uppercase tracking-wide text-gradient font-monospace mb-2">// Welcome to my space</p>
+          <h1 class="display-3 fw-bold text-white mb-3">Hi, I'm <span class="text-gradient">John Adrei Lanto</span></h1>
+          <p class="lead text-secondary mb-4">
+            Passionate about creating interactive, visually stunning, and highly responsive user interfaces. I turn modern designs into clean, functional code.
+          </p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="#projects" class="btn btn-gradient">View Work</a>
+            <a href="#contact" class="btn btn-outline-custom">Get in Touch</a>
+          </div>
+        </div>
+        <div class="col-lg-5 text-center">
+          <div class="hero-img-container">
+            <img src="img.png" alt="Developer Profile Picture" class="hero-img">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="py-5">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-white fs-1">Technical <span class="text-gradient">Skills</span></h2>
+        <p class="text-secondary">Languages, databases, and frameworks I use to bring ideas to life</p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-brands fa-html5 skill-icon" style="color: #E34F26;"></i>
+            <h5>HTML5</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-brands fa-css3-alt skill-icon" style="color: #1572B6;"></i>
+            <h5>CSS3</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-brands fa-js skill-icon" style="color: #F7DF1E;"></i>
+            <h5>JavaScript</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-brands fa-bootstrap skill-icon" style="color: #7952B3;"></i>
+            <h5>Bootstrap</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-brands fa-python skill-icon" style="color: #3776AB;"></i>
+            <h5>Python</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-brands fa-php skill-icon" style="color: #777BB4;"></i>
+            <h5>PHP</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-brands fa-java skill-icon" style="color: #ED8B00;"></i>
+            <h5>Java</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-solid fa-code skill-icon" style="color: #00599C;"></i>
+            <h5>C++</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-solid fa-hashtag skill-icon" style="color: #239120;"></i>
+            <h5>C#</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="devicon-mysql-plain skill-icon" style="color: #4479A1;"></i>
+            <h5>MySQL</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="devicon-mongodb-plain skill-icon" style="color: #47A248;"></i>
+            <h5>MongoDB</h5>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="skill-card">
+            <i class="fa-solid fa-file-code skill-icon" style="color: #FF6600;"></i>
+            <h5>XML</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="py-5">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-white fs-1">Projects & <span class="text-gradient">Experience</span></h2>
+        <p class="text-secondary">A snippet of my internship work and recent developments</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100 p-4 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-primary bg-opacity-20 text-primary px-3 py-2 rounded-pill">Internship</span>
+              </div>
+              <h4 class="mb-2">Front-End Developer (Capstone Project)</h4>
+              <p class="text-secondary small mb-3">Designed responsive mobile UI layouts in Android Studio, enhanced user navigation flow, and integrated backend APIs with dynamic views using Java/Kotlin.</p>
+            </div>
+            <div>
+              <div class="mb-3">
+                <span class="badge-tech">HTML5</span>
+                <span class="badge-tech">CSS3</span>
+                <span class="badge-tech">Bootstrap</span>
+                <span class="badge-tech">JS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100 p-4 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-info bg-opacity-20 text-info px-3 py-2 rounded-pill">Web App</span>
+              </div>
+              <h4 class="mb-2">BentaPH – E-Commerce Web Application</h4>
+              <p class="text-secondary small mb-3">Academic web application built to streamline online shopping operations, featuring custom user dashboards, real-time order tracking, and client order management functionality.</p>
+            </div>
+            <div>
+              <div class="mb-3">
+                <span class="badge-tech">JavaScript</span>
+                <span class="badge-tech">PHP</span>
+                <span class="badge-tech">MySQL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card h-100 p-4 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-warning bg-opacity-20 text-warning px-3 py-2 rounded-pill">Software</span>
+              </div>
+              <h4 class="mb-2">Data Encoder & ID Processing Intern</h4>
+                <p class="text-secondary small mb-2">
+                  Local Government Unit (LGU) Office — Responsible for accurately encoding demographic data into local databases, processing citizen identification cards, and maintaining systematic records to support municipal administration.
+                </p>
+
+                <div class="mb-3">
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#certModal" class="text-decoration-none small text-gradient fw-bold d-inline-flex align-items-center gap-1">
+                        <i class="fa-solid fa-award"></i> View Internship Certificate
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <div class="mb-3">
+                      <span class="badge-tech">Data Encoding</span>
+                      <span class="badge-tech">ID Processing</span>
+                      <span class="badge-tech">MS Excel</span>
+                      <span class="badge-tech">Database Admin</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal fade" id="certModal" tabindex="-1" aria-labelledby="certModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                      <div class="modal-content" style="background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--card-border);">
+                        <div class="modal-header border-0">
+                          <h5 class="modal-title fw-bold" id="certModalLabel">Internship Certificate of Completion</h5>
+                          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                          <img src="coc.jpg" alt="Government Internship Certificate" class="img-fluid rounded shadow" style="max-height: 500px; object-fit: contain;">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-5">
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-white fs-1">Get In <span class="text-gradient">Touch</span></h2>
+        <p class="text-secondary">Connect with me on my active social media platforms and profiles!</p>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="https://github.com/its-r3i" target="_blank" class="social-card">
+            <i class="fa-brands fa-github"></i>
+            <span>GitHub</span>
+          </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="https://www.facebook.com/adrei.lanto/" target="_blank" class="social-card">
+            <i class="fa-brands fa-facebook" style="color: #1877F2;"></i>
+            <span>Facebook</span>
+          </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="mailto:falcanadrei@gmail.com" class="social-card">
+            <i class="fa-solid fa-envelope" style="color: #EA4335;"></i>
+            <span>Gmail</span>
+          </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="https://discord.com/channels/@.cridd." target="_blank" class="social-card">
+            <i class="fa-brands fa-discord" style="color: #5865F2;"></i>
+            <span>Discord</span>
+          </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="https://instagram.com/whos.r3i09" target="_blank" class="social-card">
+            <i class="fa-brands fa-instagram" style="color: #E4405F;"></i>
+            <span>Instagram</span>
+          </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="https://www.linkedin.com/in/adrei-f-899a18438/" target="_blank" class="social-card">
+            <i class="fa-brands fa-linkedin" style="color: #0077B5;"></i>
+            <span>LinkedIn</span>
+          </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="https://www.tiktok.com/@.rei_20?" target="_blank" class="social-card">
+            <i class="fa-brands fa-tiktok" style="color: #000000;"></i>
+            <span>Tiktok</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Navigation active link click logic
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        navLinks.forEach(item => item.classList.remove('clicked-active'));
+        this.classList.add('clicked-active');
+      });
+    });
+
+    // Dark / Light Mode Toggle Logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+    const htmlElement = document.documentElement;
+
+    // Load saved preference or fallback to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    });
+
+    function setTheme(theme) {
+      htmlElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+
+      if (theme === 'light') {
+        themeIcon.className = 'fa-solid fa-sun';
+        themeIcon.style.color = '#f59e0b';
+        themeText.textContent = 'Light';
+      } else {
+        themeIcon.className = 'fa-solid fa-moon';
+        themeIcon.style.color = '#00f2fe';
+        themeText.textContent = 'Dark';
+      }
+    }
+  </script>
+</body>
+</html>
